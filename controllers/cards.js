@@ -32,7 +32,7 @@ module.exports.deleteCard = (req, res, next) => {
           throw new Error404('Это не ваша карта');
         }
       } else {
-        throw (new Error404('Неправильный формат ввода'));
+        throw new Error404('Неправильный формат ввода');
       }
     })
     .catch(next);
