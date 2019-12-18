@@ -29,11 +29,11 @@ module.exports.deleteCard = (req, res, next) => {
             .then((cardRemove) => res.send({ remove: cardRemove }))
             .catch(next);
         } else {
-          throw new Error404('Это не ваша карта');
+          next(new Error404('Это не ваша карта'));
         }
       } else {
-        throw new Error404('Неправильный формат ввода');
+        next(new Error404('Карта не найдена'));
       }
     })
-    .catch((err) => next(new Error404('Карта не найдена')));
+    .catch((err) => next(new Error404('Неправильный формат ввода id')));
 };
