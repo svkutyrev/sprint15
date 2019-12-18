@@ -2,12 +2,9 @@
 /* eslint-disable dot-notation */
 /* eslint-disable prefer-destructuring */
 require('dotenv').config();
-const express = require('express');
-const cookie = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-
-const app = express();
-app.use(cookie());
+const conf = require('../config');
+const Error401 = require('../errors/err401');
 
 module.exports = (req, res, next) => {
   const token = req.cookies.token;
@@ -17,12 +14,13 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : 'dev-secret');
+    payload = jwt.verify(token, process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : conf);
   } catch (err) {
-    return res.status(401).send({ message: 'Необходимо авторизоваться!' });
+    return next(new Error401('Необходимо авторизоваться'));
   }
 
-  req.user = payload;
+  req.user = { _id: payload._id };
+
 
   next();
 };

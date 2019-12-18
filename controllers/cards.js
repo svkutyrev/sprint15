@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
-const NotFoundError = require('../errors/not-found-err');
+const NotFoundError = require('../errors/err404');
 const Card = require('../models/card');
+const Error404 = require('../errors/err404');
+const Error401 = require('../errors/err401');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
     .populate('card')
     .then((cards) => res.send({ cards }))
-    .catch((err) => next({ message: 'Неправильный запрос' }));
+    .catch((err) => next(new Error404('Неправильный формат ввода')));
 };
 
 module.exports.createCard = (req, res, next) => {
@@ -14,7 +16,7 @@ module.exports.createCard = (req, res, next) => {
   const owner = req.user._id;
   Card.create({ name, link, owner })
     .then((card) => res.cookie('owner', owner).send({ card }))
-    .catch((err) => next({ message: 'Введите все данные корректно' }));
+    .catch((err) => next(new Error401('Введите все данные корректно')));
 };
 
 
@@ -27,10 +29,10 @@ module.exports.deleteCard = (req, res, next) => {
             .then((cardRemove) => res.send({ remove: cardRemove }))
             .catch(next);
         } else {
-          throw new NotFoundError('Это не ваша карта');
+          throw new Error404('Это не ваша карта');
         }
       } else {
-        throw new NotFoundError('Карточка не найдена');
+        throw (new Error404('Неправильный формат ввода'));
       }
     })
     .catch(next);

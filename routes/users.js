@@ -3,7 +3,11 @@ const { celebrate, Joi } = require('celebrate');
 
 const { getUsers, getUser, createUser } = require('../controllers/users');
 
-router.get('/users/:id', getUser);
+router.get('/users/:id', celebrate({
+  params: Joi.object().keys({
+    id: Joi.string().alphanum().length(24),
+  }),
+}), getUser);
 router.get('/users', getUsers);
 router.post('/users', celebrate({
   body: Joi.object().keys({
