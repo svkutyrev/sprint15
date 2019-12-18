@@ -1,5 +1,6 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+
 require('dotenv').config();
 const express = require('express');
 const cookie = require('cookie-parser');
@@ -21,7 +22,7 @@ module.exports.getUsers = (req, res, next) => {
   User.find({})
     .populate('user')
     .then((users) => res.send({ users }))
-    .catch((err) => next(new Error404('Неправильный запрос')));
+    .catch();
 };
 
 module.exports.createUser = (req, res, next) => {
@@ -58,13 +59,13 @@ module.exports.createUser = (req, res, next) => {
 module.exports.getUser = (req, res, next) => {
   User.findById(req.params.id)
     .then((user) => {
-      if (!user) {
-        next(new Error404('Нет пользователя с таким id'));
-      } else {
+      if (user) {
         res.send({ user });
+      } else {
+        next(new Error404('Нет пользователя с таким id'));
       }
     })
-    .catch((err) => next(new Error404('Нет пользователя с таким id')));
+    .catch();
 };
 
 module.exports.login = (req, res, next) => {

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const NotFoundError = require('../errors/err404');
+
 const Card = require('../models/card');
 const Error404 = require('../errors/err404');
 const Error401 = require('../errors/err401');
@@ -8,7 +8,7 @@ module.exports.getCards = (req, res, next) => {
   Card.find({})
     .populate('card')
     .then((cards) => res.send({ cards }))
-    .catch((err) => next(new Error404('Неправильный формат ввода')));
+    .catch();
 };
 
 module.exports.createCard = (req, res, next) => {
@@ -35,5 +35,5 @@ module.exports.deleteCard = (req, res, next) => {
         next(new Error404('Карта не найдена'));
       }
     })
-    .catch((err) => next(new Error404('Неправильный формат ввода id')));
+    .catch();
 };

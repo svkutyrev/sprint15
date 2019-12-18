@@ -1,1 +1,1 @@
-module.exports = 'dev-secret';
+module.exports = 'sdjkfhuH812uesa9usasdad65a5sd4564sad8a5d8dc5xf8fas6D9A8SD79AS8sq298da9sdSFDjkHSFKh';
