@@ -35,5 +35,5 @@ module.exports.deleteCard = (req, res, next) => {
         throw new Error404('Неправильный формат ввода');
       }
     })
-    .catch(next);
+    .catch((err) => next(new Error404('Карта не найдена')));
 };
