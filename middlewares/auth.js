@@ -3,8 +3,8 @@
 /* eslint-disable prefer-destructuring */
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const conf = require('../config');
 const Error401 = require('../errors/err401');
+const conf = require('../config');
 
 module.exports = (req, res, next) => {
   const token = req.cookies.token;
