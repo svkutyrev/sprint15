@@ -4,9 +4,8 @@
   "description": "project sprint15 YandexPraktikum",
   "main": "script.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "deploy": "NODE_ENV=production gh-pages"
+    "start": "cross-env NODE_ENV=production node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",

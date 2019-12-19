@@ -10,6 +10,7 @@ const User = require('../models/user');
 const Error404 = require('../errors/err404');
 const Error401 = require('../errors/err401');
 const Error403 = require('../errors/err401');
+const Error500 = require('../errors/err500');
 const conf = require('../config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -22,7 +23,7 @@ module.exports.getUsers = (req, res, next) => {
   User.find({})
     .populate('user')
     .then((users) => res.send({ users }))
-    .catch();
+    .catch((err) => next(new Error500('На сервере произошла ошибка')));
 };
 
 module.exports.createUser = (req, res, next) => {
@@ -65,7 +66,7 @@ module.exports.getUser = (req, res, next) => {
         next(new Error404('Нет пользователя с таким id'));
       }
     })
-    .catch();
+    .catch((err) => next(new Error500('На сервере произошла ошибка')));
 };
 
 module.exports.login = (req, res, next) => {
